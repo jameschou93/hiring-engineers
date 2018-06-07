@@ -1,3 +1,5 @@
+------------
+
 ### Installing Datadog Agent
 For this exercise, I have installed the the datadog-agent on Mac OS X using this command given in the [installation instructions](https://app.datadoghq.com/signup/agent#mac) after signing up for my datadog account:
 
@@ -8,6 +10,9 @@ DD_API_KEY=<MY-API-KEY> bash -c "$(curl -L https://raw.githubusercontent.com/Dat
 Once installed you should be able to open the Datadog Agent through the system tray. (cmd + space > Search datadog agent)
 
 ![datadog agent](./screenshots/datadog-agent.png)
+
+------------
+------------
 
 ### Q: Add tags in the Agent config file and show us a screenshot of your host and its tags on the Host Map page in Datadog.
 
@@ -31,6 +36,7 @@ datadog-agent stop
 
 On the [host map page](https://app.datadoghq.com/infrastructure/map), you will see the tags assigned to your host by clicking on the hexagon representing your host.
 ![hostmap](./screenshots/hostmap.png)
+------------
 
 ### Q: Install a database on your machine (MongoDB, MySQL, or PostgreSQL) and then install the respective Datadog integration for that database.
 
@@ -71,6 +77,7 @@ echo -e "\e[0;31mCannot connect to Postgres\e[0m"
 - Restart your agent and run `datadog-agent status` to make sure your integration is successfully executing. You should see something like this:
 
   ![postgres-term](./screenshots/postgres-term.png)
+  ------------
 
 ### Q: Create a custom Agent check that submits a metric named my_metric with a random value between 0 and 1000.
 
@@ -205,6 +212,7 @@ __Troubleshooting__
  4. I reinstalled the datadog agent and repeated my steps but still received the same error
 
 -----
+------------
 
 ### Q: Change your check's collection interval so that it only submits the metric once every 45 seconds.
 
@@ -219,8 +227,10 @@ instances:
 
 ~~~
 
+------------
 
 ### Q: Utilize the Datadog API to create a Timeboard that contains:
+------------
 
 #### Q: Your custom metric scoped over your host.
 To create my timeboard using the API I referred to the [API Docs](https://docs.datadoghq.com/api/?lang=ruby#timeboards) and wrote my script in ruby. Adjusting the sample provided in the docs, I created a timeboard including a graph for my_metric. To adjust this for your metric, change your app-key, api-key, and your query (`"q" =>`) call your metric.
@@ -262,6 +272,7 @@ tags = ['app:webserver', 'frontend']
 dog.create_dashboard(title, description, graphs, template_variables)
 
 ~~~
+------------
 
 #### Q: Any metric from the Integration on your Database with the anomaly function applied.
 
@@ -306,6 +317,7 @@ dog.monitor("metric alert", "avg(last_4h):anomalies(avg:postgresql.commits{*}, '
 
 __Note__: *The structure of the monitor:
 `dog.monitor(type, query, name, tag, options)` and the structure of the query can differ depending on the type. [More info on queries in API requests](https://docs.datadoghq.com/api/?lang=ruby#create-a-monitor)*
+------------
 
 #### Q: Your custom metric with the rollup function applied to sum up all the points for the past hour into one bucket
 
@@ -372,6 +384,7 @@ dog.create_dashboard(title, description, graphs, template_variables)
 And now I can see the dashboard I created from my script in the UI:
 
 ![dashlist](./screenshots/dashlist.png)
+------------
 
 #### Q: Once this is created, access the Dashboard from your Dashboard List in the UI:
 
@@ -389,10 +402,12 @@ And now I can see the dashboard I created from my script in the UI:
 
   ![anomaly](./screenshots/anomaly-ex.png)
   The anomaly graph displays a certain metric overtime and it's historical trends. The graph shows it's predicted trend(grey) and highlights any abnormal behavior that lies outside of the the trend(red).
+  ------------
 
 #### Q: Since you’ve already caught your test metric going above 800 once, you don’t want to have to continually watch this dashboard to be alerted when it goes above 800 again. So let’s make life easier by creating a monitor.
 
-Due to my trouble creating the random agent check metric, I chose to trigger the alert by setting the metric to continuously submit a specific number between 500 and 800 for a warning message and above 800 for an alert message.
+Due to my trouble creating the random agent check metric, I chose to trigger the alert by setting the metric to continuously submit a specific number between 500 and 800 for a warning message and above 800 for an ------------
+alert message.
 #### Q: Create a new Metric Monitor that watches the average of your custom metric (my_metric) and will alert if it’s above the following values over the past 5 minutes:
 
  - __Warning threshold of 500__
@@ -439,6 +454,7 @@ Due to my trouble creating the random agent check metric, I chose to trigger the
     I also see that I received an alert shortly after when my metric submitted over 800
 
     ![email](./screenshots/email-alert.png)
+    ------------
 
 #### Q: Collecting APM Data
   From the documentation I learned that I can send metric data from my applications to my agent which will regularly send the data to the Datadog API.
@@ -498,12 +514,14 @@ __datadog-agent status__
 
   4. Github and Datadog docs did not have any related issues.
 
+  ------------
 -----
 #### Q:Bonus Question: What is the difference between a Service and a Resource?
 
 A service is a metric that covers a grouping of processes that define a particular functionality (i.e your application, external api, databases) while a resource is a specific query to one of these services.
 
+------------
 
 #### Q: Is there anything creative you would use Datadog for?
 
-The first idea that comes to mind is the use of anomaly monitoring in a large hospital. I think it would be an awesome resource for doctors and patients to be able to view trends in not only their health metrics but how their behaviors and external environments play a part in their personal health. For example, we can see on a larger scale how much average recovery rate in the ICU increases after the introduction of daily musical therapy. On a more individual level, patients recovering from severe bone fractures can be informed of their recovery before and during treatment. 
+The first idea that comes to mind is the use of anomaly monitoring in a large hospital. I think it would be an awesome resource for doctors and patients to be able to view trends in not only their health metrics but how their behaviors and external environments play a part in their personal health. For example, we can see on a larger scale how much average recovery rate in the ICU increases after the introduction of daily musical therapy. On a more individual level, patients recovering from severe bone fractures can be informed of their recovery before and during treatment.
